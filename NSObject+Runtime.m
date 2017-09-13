@@ -8,8 +8,19 @@
 
 #import "NSObject+Runtime.h"
 #import <objc/runtime.h>
+#import <UIKit/UIKit.h>
 
 @implementation NSObject (Runtime)
+
++(void)applicationWillResignActiveNotification:(NSNotification *)note{
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    //[[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];
+}
+
++(void)load{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActiveNotification:) name:UIApplicationWillResignActiveNotification object:nil];
+}
+
 /**
  获取属性列表
  */
